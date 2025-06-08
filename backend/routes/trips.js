@@ -4,7 +4,7 @@ import { saveUserTrips,getUserTrips,deleteTripByIndex } from '../controllers/tri
 const router=express.Router();
 
 router.post('/addTrip',saveUserTrips);
-router.get('/getTrips',getUserTrips);
+router.get('/getTrips', getUserTrips); // ✅ correct
 router.post('/deleteTripByIndex', deleteTripByIndex); // ✅ New route
 
 
