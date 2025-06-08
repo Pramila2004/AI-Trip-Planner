@@ -36,19 +36,19 @@ export const saveUserTrips = async (req, res) => {
 
 export const getUserTrips = async (req, res) => {
   try {
-    const { userId } = req.query;
-    const user = await Trip.findOne({ userId });
+    const userId = req.query.userId;
+    const userTrips = await Trip.findOne({ userId });
 
-    // If no document or no trips, return empty array
-    const trips = Array.isArray(user?.trips) ? user.trips : [];
+    if (!userTrips) {
+      return res.status(404).json({ message: "No trips found for this user" });
+    }
 
-    return res.status(200).json({ trips });
+    res.status(200).json(userTrips.trips);
   } catch (error) {
-    console.error("Get trips error:", error);
-    return res.status(500).json({ error: "Server error" });
+    console.error(error);
+    res.status(500).json({ error: "Server error" });
   }
 };
-
 
 export const deleteTripByIndex = async (req, res) => {
   const { userId, index } = req.body;
