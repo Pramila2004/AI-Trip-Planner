@@ -44,6 +44,8 @@ db_connection();
 // API routes
 app.use('/api/auth', authRoutes);
 app.use('/api/trip', tripRoutes);
+app.get('/', (req, res) => res.send('API is working'));
+
 
 // Serve React in production
 if (process.env.NODE_ENV === 'production') {
