@@ -1,10 +1,9 @@
-import React, { useContext,useState } from 'react';
+import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import Header from '../components/Header/Header';
 import TripSummary from '../components/TripDetails/TripSummary';
 import HotelRecommendation from '../components/Hotels/HotelRecommendation';
 import DailyPlan from '../components/DailyPlan/DailyPlan';
-import { AuthContext } from '../context/AuthContext.js';
 import { post } from '../services/ApiEndpoint';
 import toast from 'react-hot-toast';
 
@@ -14,8 +13,8 @@ export default function TripDetails() {
     const { tripDetails: trip, hotelOptions: hotels, dailyPlan } = geminiResponse;
     const [currentuser] = useState(JSON.parse(localStorage.getItem("user")));
 
-    console.log(geminiResponse)
-    
+   
+
     const handlesubmit = async (e) => {
         e.preventDefault()
         try {
@@ -24,8 +23,7 @@ export default function TripDetails() {
                 hotelOptions: hotels,
                 dailyPlan: dailyPlan,
             };
-            console.log("Current user in frontend:", currentuser);
-            console.log("Trip Data in frontend:", tripPayload);
+
 
             const response = await post('/api/trip/addTrip', { user: currentuser, trip: tripPayload })
             if (response.status === 200) {

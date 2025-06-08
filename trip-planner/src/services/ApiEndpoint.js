@@ -4,7 +4,7 @@ import axios from 'axios'
 
 const instance = axios.create({
   baseURL: process.env.NODE_ENV === 'production'
-      ? 'https://backend-stlp.onrender.com'
+      ? 'https://trip-planner-0oek.onrender.com'
       : 'http://localhost:5000',
   headers: {
       'Content-Type': 'application/json',

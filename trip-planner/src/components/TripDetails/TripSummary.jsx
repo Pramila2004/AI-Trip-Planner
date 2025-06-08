@@ -3,10 +3,10 @@ import { FaMapMarkerAlt } from 'react-icons/fa';
 
 export default function TripSummary({ trip }) {
     const {
-        imageUrl,
+        // imageUrl,
         location,
         durationInDays,
-        noOfTravellers,
+        // noOfTravellers,
         budget,
         recommendedTravelPeriod,
         tripType,
@@ -32,6 +32,7 @@ export default function TripSummary({ trip }) {
 
             <img
                 src='./place.png'
+                alt='place'
                 className="w-full h-72 object-cover rounded-lg"
                 onError={(e) => { e.target.onerror = null; e.target.src = "https://via.placeholder.com/1280x400?text=Image+Unavailable"; }}
             />

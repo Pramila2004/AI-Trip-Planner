@@ -53,7 +53,7 @@ export const login= async(req,res)=>{
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
             maxAge: 3600000, // 1 hour
-          
+            sameSite: 'None' 
           });
 
           
@@ -79,7 +79,7 @@ export const logout = async (req, res) => {
       res.clearCookie("token", {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
-       
+        sameSite: "None",
       });
   
       // Send success response

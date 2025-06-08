@@ -1,10 +1,9 @@
 import React from "react";
 import { FaMapMarkerAlt } from 'react-icons/fa';
 
-import { useParams, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 export default function ViewTrip() {
-    const { id } = useParams();
     const location = useLocation();
     const trips = location.state?.trip;
 
@@ -36,6 +35,7 @@ export default function ViewTrip() {
 
                 <img
                     src='/place.png'
+                    alt="place"
                     className="w-full h-72 object-cover rounded-lg"
                    
                 />

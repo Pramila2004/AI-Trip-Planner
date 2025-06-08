@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Header from '../components/Header/Header';
 import Options from '../data/Options';
-import { Toaster } from 'react-hot-toast';
 import { toast } from 'react-hot-toast';
 import { callGemini } from '../services/AIModel';
 import { useNavigate } from 'react-router-dom';
@@ -10,6 +9,8 @@ import { useNavigate } from 'react-router-dom';
 export default function CreateTrip() {
     const navigate = useNavigate();
     const { budgetOptions, travelGroupOptions } = Options;
+    const [currentuser] = useState(JSON.parse(localStorage.getItem("user")));
+    
 
     const [formData, setFormData] = useState({
         location: '',
@@ -35,7 +36,12 @@ export default function CreateTrip() {
     };
 
 
-    const handleSubmit = async () => {
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        if (!currentuser) {
+            toast.error("Login first to Generate Trip plan.");
+            return navigate("/login");
+        }
         const { location, noOfDays, selectedBudget, selectedGroup } = formData;
 
         if (!location.trim() || !noOfDays || !selectedBudget || !selectedGroup) {
@@ -216,7 +222,7 @@ Important Instructions:
                 </button>
 
             </div>
-           
+
         </div>
     );
 }
