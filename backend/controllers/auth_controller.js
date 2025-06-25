@@ -3,36 +3,41 @@ import jwt from 'jsonwebtoken'
 import bcryptjs from 'bcryptjs'
 
 
-export const register= async(req,res)=>{
+export const register = async (req, res) => {
 
     try {
-        const {username,email,password}=req.body;
-        const existUser=await userModel.findOne({email:email})
+        const { username, email, password } = req.body;
+        const existUser = await userModel.findOne({ email: email })
 
-        if(existUser){
-            return res.status(401).json({success:false,message:"user already Exist"})
+        if (existUser) {
+            return res.status(401).json({ success: false, message: "user already Exist" })
         }
-        
-        const hashedpassword=await bcryptjs.hash(password,10)
-        const newUser=new userModel({
-            username:username,
-            email:email,
-            password:hashedpassword,
+
+        const hashedpassword = await bcryptjs.hash(password, 10)
+        const newUser = new userModel({
+            username: username,
+            email: email,
+            password: hashedpassword,
         })
 
         await newUser.save()
-        return res.status(200).json({newUser})
+        return res.status(200).json({
+            success: true,
+            message: "User registered successfully",
+            newUser,
+        });
+
 
     } catch (error) {
-        res.status(500).json({success:false,message:"Internal server error"})
-    }   
+        res.status(500).json({ success: false, message: "Internal server error" })
+    }
 
 }
-export const login= async(req,res)=>{
+export const login = async (req, res) => {
     try {
         const { email, password } = req.body;
 
-        const user = await userModel.findOne({ email:email });
+        const user = await userModel.findOne({ email: email });
         if (!user) {
             return res.status(404).json({ success: false, message: "Email is Not Registered" });
         }
@@ -43,20 +48,20 @@ export const login= async(req,res)=>{
         }
 
         const token = jwt.sign(
-            { id: user._id},
+            { id: user._id },
             process.env.JWT_SECRET_KEY,
             { expiresIn: '1h' }
-          );
-          
+        );
 
-          res.cookie('token', token, {
+
+        res.cookie('token', token, {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
             maxAge: 3600000, // 1 hour
-            sameSite: 'None' 
-          });
+            sameSite: 'None'
+        });
 
-          
+
 
         // Exclude password from user object
         const { password: userPassword, ...safeUser } = user._doc;
@@ -69,24 +74,23 @@ export const login= async(req,res)=>{
         });
     } catch (error) {
         res.status(500).json({ success: false, message: "Internal server error" });
-        
+
     }
 
 }
 export const logout = async (req, res) => {
     try {
-      // Clear the authentication cookie
-      res.clearCookie("token", {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: "None",
-      });
-  
-      // Send success response
-      res.status(200).json({ message: "User Logged Out" });
+        // Clear the authentication cookie
+        res.clearCookie("token", {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
+            sameSite: "None",
+        });
+
+        // Send success response
+        res.status(200).json({ message: "User Logged Out" });
     } catch (error) {
-      console.error("Logout Error:", error);
-      res.status(500).json({ success: false, message: "Internal server error" });
+        console.error("Logout Error:", error);
+        res.status(500).json({ success: false, message: "Internal server error" });
     }
-  };
-  
+};
