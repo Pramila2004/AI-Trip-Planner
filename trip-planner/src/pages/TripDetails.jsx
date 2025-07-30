@@ -10,6 +10,7 @@ import toast from 'react-hot-toast';
 export default function TripDetails() {
     const location = useLocation();
     const { geminiResponse } = location.state || {};
+    
     const { tripDetails: trip, hotelOptions: hotels, dailyPlan } = geminiResponse;
     const [currentuser] = useState(JSON.parse(localStorage.getItem("user")));
 
@@ -35,6 +36,16 @@ export default function TripDetails() {
             console.error("Submit Error:", error);
             toast.error(error.response?.data?.message || "An error occurred while saving Trip.");
         }
+    }
+
+    if (!geminiResponse) {
+        return (
+            <div className="text-white min-h-screen flex flex-col items-center justify-center bg-gray-900">
+                <h1 className="text-2xl font-bold mb-4">Trip Data Not Found</h1>
+                <p className="mb-6">Please go back and generate your trip plan again.</p>
+                <a href="/" className="text-indigo-400 underline hover:text-indigo-200">Return to Home</a>
+            </div>
+        );
     }
 
     return (
