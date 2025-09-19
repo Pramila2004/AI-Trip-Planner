@@ -27,7 +27,22 @@ AI Trip Planner is a **smart travel assistant** that leverages **Gemini API** to
 ## 🚀 Getting Started
 
 ### 🔧 Installation
-1. Clone the repository:
+
+1. **Clone the repository**
    ```bash
    git clone https://github.com/Pramila2004/AI-Trip-Planner.git
    cd AI-Trip-Planner
+
+2. **Install dependencies**
+   ```bash
+   npm install
+
+3. **Setup .env file with the following variables:**
+   ```bash
+   MONGO_URI=your_mongodb_uri
+   JWT_SECRET=your_secret_key
+   GEMINI_API_KEY=your_api_key
+
+1. **Start the development server**
+   ```bash
+   npm run dev
